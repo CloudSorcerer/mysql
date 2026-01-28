@@ -228,3 +228,80 @@ rs.add_instance("admin@10.1.0.5:3306")
 
 rs = dba.get_replica_set()
 rs.status()
+
+
+########################################### ReplicaSet Failover Options ######################################################
+ReplicaSet Failover Options
+===========================================================================================================================
+✅ OPTION 1 — Manual Failover Using MySQL Shell
+------------------------------------
+# When the PRIMARY fails:
+
+#Connect to any replica:
+
+    mysqlsh admin@ReplicaSet-2:3306 --py
+
+# Run:
+    rs = dba.get_replica_set()
+    rs.force_primary_instance("ReplicaSet-2:3306")
+
+# What this does
+
+    #Promotes ReplicaSet-2 to PRIMARY
+    #Updates ReplicaSet metadata
+    #Restores write availability
+    #ReplicaSet becomes healthy again
+
+# But: this is still manual failover.
+===========================================================================================================================
+✅ OPTION 2 — Scripted Failover (Semi-Automatic)
+
+# You can create a script that:
+
+    #Monitors PRIMARY (ping / mysqladmin)
+
+    # When failure is detected → automatically calls MySQL Shell:
+
+# Example:
+
+mysqlsh --py -e "
+rs = dba.get_replica_set();
+rs.force_primary_instance('ReplicaSet-2:3306');
+"
+
+#This creates a semi-automatic failover, triggered by your script.
+# Pros
+
+    #Works reliably
+    #Faster recovery
+    #No manual intervention
+
+# ❌ Cons
+    #Not true HA
+    #External monitoring logic is required
+
+===========================================================================================================================
+❗ WHAT REPLICASET CANNOT DO
+
+ReplicaSet does NOT provide the HA guarantees of InnoDB Cluster.
+Not Supported
+	
+
+Explanation
+
+🚫 Automatic failover - No native automatic primary switch.
+🚫 Quorum - No membership voting.
+🚫 Automatic rejoin - Nodes won't auto-heal after failure.
+🚫 Synchronous replication - Uses async replication only.
+🚫 Write availability after primary failure - Replicas remain read-only until promoted.
+🚫 Built-in HA logic  - Must be implemented externally.
+	
+
+
+Conclusion
+
+If your requirement is true automatic high availability, then:
+👉 Use InnoDB Cluster instead of ReplicaSet.
+
+ReplicaSet = good for controlled, predictable environments
+InnoDB Cluster = real HA with quorum, auto failover, auto recovery
