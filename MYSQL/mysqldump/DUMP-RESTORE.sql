@@ -82,3 +82,6 @@ mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS db_alpha;"
 
 -- Restore according restore order
 mysql -u root -p db_alpha < /backup/backup_fule_name.sql
+
+-- if remote
+mysql -u root -p -h ip_addr db_alpha < /backup/backup_file_name.sql
