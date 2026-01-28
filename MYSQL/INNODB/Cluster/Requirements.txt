@@ -1,0 +1,32 @@
+⭐ Environment
+Server Versions
+mysql     8.4.7
+mysqlsh   8.4.7
+OS:       RHEL 9.7 (Plow)
+
+Primary  MySQL-1   10.1.0.6
+Replica 1 MySQL-2 10.1.0.7
+Replica 2 MySQL-3 10.1.0.8
+
+
+
+Directory Layout
+datadir   = /mysql
+socket    = /mysql/mysql.sock
+logs      = default
+binlogs   = /mysql/binlogs
+backup    = /backup
+
+Components Used
+✔ GTID-based replication
+✔ InnoDB Cluster (Single-Primary Mode)
+✔ MySQL Shell AdminAPI (Python mode)
+✔ MySQL Router for application connectivity
+
+Summary
+This setup follows modern MySQL High Availability architecture used in real production environments:
+
+    InnoDB Cluster ensures HA with automatic failover
+    MySQL Routes provides seamless routing
+    GTID ensures reliable replication
+    AdminAPI simplifies deployment and management

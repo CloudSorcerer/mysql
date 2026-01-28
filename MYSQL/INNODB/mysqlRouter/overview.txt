@@ -1,0 +1,44 @@
+✅ 1. What is MySQL Router?
+
+MySQL Router is a lightweight proxy that sits between your application and the MySQL InnoDB Cluster.
+
+You do NOT connect to MySQL nodes directly — applications connect to Router, and Router automatically chooses:
+
+    The PRIMARY for reads & writes
+
+    One of the SECONDARY nodes for read-only queries
+
+    Automatically fails over when the primary changes
+
+    Automatically updates routing table from metadata
+
+    Uses your cluster’s SSL settings
+
+📌 Router is mandatory for production InnoDB Cluster
+(unless you use MySQL Router inside the MySQL Shell Plugin — advanced usage).
+✅ 2. How MySQL Router Works in InnoDB Cluster
+
+Your cluster stores routing metadata in:
+mysql_innodb_cluster_metadata.*
+
+Router reads that metadata and builds these endpoints:
+✔ Read/Write (PRIMARY)
+
+    Always points to the PRIMARY
+
+    Automatically switches after failover
+
+✔ Read/Only (SECONDARY)
+
+    Balances queries between InnoDB-2 and InnoDB-3
+
+    Automatically updates when nodes go offline
+
+✔ Admin / Metadata
+
+    Used internally by Router and AdminAPI
+
+🖼️ MySQL Router Architectur
+image-20251208-143750.png
+
+ 
