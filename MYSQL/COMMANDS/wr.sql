@@ -231,4 +231,3 @@ SELECT
   (SELECT VARIABLE_VALUE FROM performance_schema.global_variables WHERE VARIABLE_NAME='max_connections')     AS max_connections
 FROM information_schema.PROCESSLIST p;
 
-==
