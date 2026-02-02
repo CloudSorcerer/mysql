@@ -10,7 +10,7 @@ util.dumpSchemas(
   }
 );
 
--- Restore DB
+-- Restore DB - Tables + data + views + triggers + routines + events
 
 util.loadDump("/backup/db_alpha", {
   ignoreVersion: true,
