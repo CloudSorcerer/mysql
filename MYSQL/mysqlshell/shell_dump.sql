@@ -1,4 +1,4 @@
--- 
+-- Full DB - Tables + data + views + triggers + routines + events
 
 util.dumpSchemas(
   ["db_alpha"],
