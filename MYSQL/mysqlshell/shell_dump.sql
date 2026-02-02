@@ -10,3 +10,9 @@ util.dumpSchemas(
   }
 );
 
+-- Restore DB
+
+util.loadDump("/backup/db_alpha", {
+  ignoreVersion: true,
+  deferTableIndexes: "all"
+});
